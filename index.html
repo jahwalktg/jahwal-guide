@@ -82,16 +82,36 @@ details.q[open]>summary::after{content:"－"}
 .form{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:8px 0}
 .form label{display:grid;gap:4px;font-size:.85rem;color:var(--muted)}
 .form input{min-height:44px;padding:6px 10px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);font-size:.95rem}
-.qrbox{display:none;margin:10px 0;text-align:center}
+.qrbox{display:none;margin:12px 0;text-align:center}
 .qrbox.on{display:block}
-.qrbox img{width:200px;height:200px;background:#fff;padding:8px;border-radius:12px}
+.qrcard{display:inline-block;padding:16px 20px;border-radius:16px;background:#fff;color:#1A2B50;border:1.5px solid var(--line)}
+.qrcard img{display:block;width:260px;height:260px;margin:6px auto;image-rendering:pixelated}
+.qrcard p{margin:0}
+.qrcard .qt{font-weight:800;font-size:1.1rem}
+.qrcard .qc{font-weight:700;margin-top:4px}
+.qrcard .qs{font-size:.85rem;color:#5B6885}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.note{margin:6px 0 0;font-size:.85rem;color:var(--muted);min-height:1.2em}
+.warnline{margin:6px 0;padding:8px 12px;border-radius:10px;background:var(--amber-bg);border:1px solid var(--amber-line);font-size:.88rem}
+.center .from{margin:6px 0 0;font-size:.8rem;color:var(--muted)}
+.center a.tel{font-weight:800}
 footer{margin:28px 0 0;padding-top:12px;border-top:1.5px solid var(--line);color:var(--muted);font-size:.82rem}
 footer p{margin:2px 0}
 @media print{
   @page{size:A4;margin:14mm 12mm}
   html,html.big{font-size:11.5pt}
   body{background:#fff;color:#000}
-  .tools,.jump,.staff,.qrbox:not(.on){display:none!important}
+  .tools,.jump,.staff{display:none!important}
+  body.print-qr .page>*{display:none!important}
+  body.print-qr .page>#staff{display:block!important;border:0;padding:0;margin:0;background:none}
+  body.print-qr #staff>*:not(.qrbox){display:none!important}
+  body.print-qr #staff .qrbox{display:block!important;margin-top:30mm}
+  body.print-qr #staff .qrbox>*:not(.qrcard){display:none!important}
+  body.print-qr .qrcard{border:2px solid #333;padding:12mm 16mm}
+  body.print-qr .qrcard img{width:80mm;height:80mm}
+  body.print-qr .qrcard .qt{font-size:20pt}
+  body.print-qr .qrcard .qc{font-size:15pt}
+  body.print-qr .qrcard .qs{font-size:12pt}
   details.q{break-inside:avoid;border-color:#999}
   details.q>summary::after,details.q[open]>summary::after{content:""}
   .center .empty{display:none}
@@ -279,24 +299,34 @@ footer p{margin:2px 0}
     </div></details>
   </section>
 
-  <div class="qrbox" id="qrBox"><img id="qrImg" alt="이 안내 화면 QR"><p class="sub">휴대폰 카메라로 찍으면 이 안내가 열려요</p></div>
-
   <details class="staff" id="staff">
     <summary>종사자 선생님께 — 이렇게 써 주세요</summary>
     <h3>1. 센터 정보 넣기</h3>
-    <p>아래 칸에 적으면 화면 위 초록 상자와 인쇄본에 나와요. 적은 내용은 <b>이 브라우저에만</b> 남고 어디에도 보내지 않아요.</p>
+    <p>아래 칸에 적으면 화면 위 초록 상자, 인쇄본, <b>참여자에게 줄 QR</b>에 함께 들어가요. 사이트 서버에는 보내지 않고, 이 브라우저와 QR 안에만 담겨요.</p>
+    <p class="warnline">⚠ QR을 받은 사람은 누구나 이 내용을 볼 수 있어요. 개인 휴대폰 번호 말고 <b>센터 대표번호</b>를 적어 주세요.</p>
     <div class="form">
-      <label>센터 이름<input id="fCenter" placeholder="○○지역자활센터"></label>
-      <label>담당 선생님<input id="fStaff" placeholder="예: 사업단 담당 선생님"></label>
-      <label>연락처<input id="fTel" placeholder="02-000-0000"></label>
-      <label>연락 가능한 시간·메모<input id="fMemo" placeholder="평일 9시~18시, 못 나올 땐 출근 전에"></label>
+      <label>센터 이름<input id="fCenter" maxlength="20" placeholder="○○지역자활센터"></label>
+      <label>담당 선생님<input id="fStaff" maxlength="15" placeholder="예: 사업단 담당 선생님"></label>
+      <label>연락처 (센터 대표번호)<input id="fTel" maxlength="20" inputmode="tel" placeholder="02-000-0000"></label>
+      <label>연락 가능한 시간·메모 (30자까지)<input id="fMemo" maxlength="30" placeholder="평일 9시~18시, 못 나올 땐 출근 전에"></label>
     </div>
     <h3>2. 나눠 주기</h3>
     <ul>
       <li>상담할 때 「글자 크게」를 누르고 화면을 함께 보며 설명하세요.</li>
       <li>「인쇄하기」를 누르면 모든 답이 펼쳐진 A4 안내문이 나와요.</li>
-      <li><button class="btn" id="btnQr" type="button">이 화면 QR 보기</button> 휴대폰으로 찍어 가게 할 수 있어요.</li>
+      <li>참여자에게는 <b>QR이나 링크</b>로 주세요. 찍으면 이 안내와 위에 적은 센터 연락처가 함께 열려요.</li>
     </ul>
+    <div class="btnrow"><button class="btn main" id="btnQr" type="button">참여자용 QR 만들기</button><button class="btn" id="btnLink" type="button">링크 복사</button></div>
+    <div class="qrbox" id="qrBox">
+      <div class="qrcard" id="qrCard">
+        <p class="qt">자활 참여자 길잡이</p>
+        <img id="qrImg" alt="참여자용 안내 QR">
+        <p class="qc" id="qrCenter"></p>
+        <p class="qs">휴대폰 카메라로 찍으면 쉬운 안내가 열려요</p>
+      </div>
+      <div class="btnrow" style="justify-content:center"><button class="btn" id="btnQrPrint" type="button">QR 안내문 인쇄</button><button class="btn" id="btnQrSave" type="button">QR 그림 저장</button></div>
+      <p class="note" id="qrNote"></p>
+    </div>
     <h3>3. 이 안내가 하지 않는 것</h3>
     <ul>
       <li>개인 급여 계산, 주차·월차 발생 여부, 수급 자격 같은 <b>판정은 하지 않아요.</b> 모든 답이 「담당 선생님께 확인」으로 끝나도록 썼어요.</li>
@@ -318,15 +348,23 @@ footer p{margin:2px 0}
   var $=function(id){return document.getElementById(id);};
   var KEY='jahwal-participant.center.v1';
   var C={};try{C=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  /* QR·링크로 들어온 경우: 주소 # 뒤의 센터 정보(c 센터, s 담당, t 연락처, m 메모)를 보여 줌. # 뒤는 서버로 가지 않음. 이 기기에는 저장하지 않음 */
+  var FIELDS=[['c','center'],['s','staff'],['t','tel'],['m','memo']];
+  var H=null;
+  try{var hp=new URLSearchParams(location.hash.slice(1));FIELDS.forEach(function(f){var v=hp.get(f[0]);if(v){H=H||{};H[f[1]]=v.slice(0,40);}});}catch(e){}
+  function shown(){return H||C;}
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function renderCenter(){
-    var box=$('centerBox'),rows=[['센터',C.center],['담당',C.staff],['연락처',C.tel],['메모',C.memo]].filter(function(r){return r[1];});
+    var D=shown(),box=$('centerBox'),rows=[['센터',D.center],['담당',D.staff],['연락처',D.tel],['메모',D.memo]].filter(function(r){return r[1];});
     if(!rows.length){box.innerHTML='<h2>📞 궁금하면 여기로</h2><p class="empty">담당 선생님 연락처를 받아 두세요. (종사자 선생님은 맨 아래 「이렇게 써 주세요」에서 센터 정보를 넣을 수 있어요.)</p><div class="blank"><b>센터</b><span></span><b>담당</b><span></span><b>연락처</b><span></span></div>';return;}
-    box.innerHTML='<h2>📞 궁금하면 여기로</h2><dl>'+rows.map(function(r){return '<dt>'+r[0]+'</dt><dd>'+esc(r[1])+'</dd>';}).join('')+'</dl>';
+    box.innerHTML='<h2>📞 궁금하면 여기로</h2><dl>'+rows.map(function(r){
+      var v=esc(r[1]);
+      if(r[0]==='연락처'){var n=r[1].replace(/[^0-9+]/g,'');if(n.length>=7)v='<a class="tel" href="tel:'+n+'">'+v+'</a>';}
+      return '<dt>'+r[0]+'</dt><dd>'+v+'</dd>';}).join('')+'</dl>'+(H?'<p class="from">센터에서 보내 준 연락처예요. 누르면 전화가 걸려요.</p>':'');
   }
   [['fCenter','center'],['fStaff','staff'],['fTel','tel'],['fMemo','memo']].forEach(function(f){
     var i=$(f[0]);i.value=C[f[1]]||'';
-    i.addEventListener('input',function(){C[f[1]]=i.value.trim();try{localStorage.setItem(KEY,JSON.stringify(C));}catch(e){}renderCenter();});
+    i.addEventListener('input',function(){C[f[1]]=i.value.trim();try{localStorage.setItem(KEY,JSON.stringify(C));}catch(e){}H=null;renderCenter();if($('qrBox').classList.contains('on'))makeQr();});
   });
   renderCenter();
   var big=false;
@@ -334,15 +372,30 @@ footer p{margin:2px 0}
   var allOpen=false;
   $('btnOpen').onclick=function(){allOpen=!allOpen;document.querySelectorAll('details.q').forEach(function(d){d.open=allOpen;});this.textContent=allOpen?'모두 접기':'모두 펼치기';};
   var opened=[];
-  window.addEventListener('beforeprint',function(){opened=[];document.querySelectorAll('details.q').forEach(function(d){opened.push(d.open);d.open=true;});});
-  window.addEventListener('afterprint',function(){document.querySelectorAll('details.q').forEach(function(d,i){d.open=opened[i];});});
+  window.addEventListener('beforeprint',function(){opened=[];if(document.body.classList.contains('print-qr'))return;document.querySelectorAll('details.q').forEach(function(d){opened.push(d.open);d.open=true;});});
+  window.addEventListener('afterprint',function(){if(!opened.length)return;document.querySelectorAll('details.q').forEach(function(d,i){d.open=opened[i];});});
   $('btnPrint').onclick=function(){window.print();};
-  $('btnQr').onclick=function(){
-    var box=$('qrBox');
-    if(box.classList.contains('on')){box.classList.remove('on');return;}
-    try{var q=qrcode(0,'M');q.addData(location.href.split('#')[0]);q.make();$('qrImg').src=q.createDataURL(8,2);box.classList.add('on');box.scrollIntoView({block:'center'});}
-    catch(e){alert('QR을 만들지 못했어요. 인터넷 연결을 확인해 주세요.');}
+  function shareUrl(){
+    var base=location.href.split('#')[0],q=[];
+    FIELDS.forEach(function(f){var v=(C[f[1]]||'').trim();if(v)q.push(f[0]+'='+encodeURIComponent(v));});
+    return q.length?base+'#'+q.join('&'):base;
+  }
+  function makeQr(){
+    var url=shareUrl();
+    try{var q=qrcode(0,'L');q.addData(url);q.make();var n=q.getModuleCount();$('qrImg').src=q.createDataURL(Math.max(2,Math.floor(520/(n+8))),4);}
+    catch(e){$('qrNote').textContent='QR을 만들지 못했어요. 메모를 줄이거나 인터넷 연결을 확인해 주세요.';return;}
+    $('qrCenter').textContent=C.center||'';
+    $('qrBox').classList.add('on');
+    $('qrNote').textContent=/^https?:\/\/(localhost|127\.)/.test(url)?'지금은 이 PC 미리보기 주소라 다른 휴대폰에서는 열리지 않아요. 사이트에 올린 뒤 다시 만드세요.':(C.center?'센터 정보가 담긴 QR이에요.':'센터 정보 없이 안내만 담긴 QR이에요.');
+  }
+  $('btnQr').onclick=function(){makeQr();$('qrBox').scrollIntoView({block:'center'});};
+  $('btnLink').onclick=function(){
+    var url=shareUrl(),done=function(){$('qrNote').textContent='링크를 복사했어요. 단체방이나 문자에 붙여 넣으세요.';};
+    if(!$('qrBox').classList.contains('on'))makeQr();
+    try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(done,function(){prompt('아래 링크를 복사하세요',url);});}else prompt('아래 링크를 복사하세요',url);}catch(e){prompt('아래 링크를 복사하세요',url);}
   };
+  $('btnQrPrint').onclick=function(){$('staff').open=true;document.body.classList.add('print-qr');window.print();setTimeout(function(){document.body.classList.remove('print-qr');},500);};
+  $('btnQrSave').onclick=function(){var a=document.createElement('a');a.href=$('qrImg').src;a.download='참여자길잡이_QR'+(C.center?'_'+C.center:'')+'.gif';document.body.appendChild(a);a.click();a.remove();};
 })();
 </script>
 </body>
