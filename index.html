@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>자활 참여자 길잡이</title>
+<meta name="description" content="자활근로 참여자를 위한 쉬운 안내 — 급여명세서 낱말, 일할 때 지킬 것, 일하면 손해일까, 안전·건강. 내 경우와 우리 센터 기준은 담당 선생님께 확인하세요.">
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --blue:#1A6EFF; --navy:#1A2B50; --green:#1F9D5C; --red:#D9534F;
+  --bg:#F4F7FC; --surface:#FFFFFF; --line:#D5DDEC; --soft:#EEF3FB;
+  --text:#1A2B50; --muted:#5B6885;
+  --amber:#8A5A00; --amber-bg:#FFF4D6; --amber-line:#E5B93C;
+  --mint-bg:#E9F7EF; --mint-line:#BFE6CF;
+  --font:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --blue:#6BA1FF; --navy:#9DB8F0; --green:#5CCB8F; --red:#FF7B76;
+    --bg:#0E1630; --surface:#17224A; --line:#2F3F73; --soft:#1C2D5E;
+    --text:#EAF0FF; --muted:#A9B6DA;
+    --amber:#FFD166; --amber-bg:#3A2F10; --amber-line:#8F7420;
+    --mint-bg:#143A2A; --mint-line:#2E6B4E;
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+html{font-size:18px}
+html.big{font-size:21px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.7;word-break:keep-all;overflow-wrap:anywhere;-webkit-text-size-adjust:100%}
+a{color:var(--blue)}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.page{max-width:860px;margin:0 auto;padding:16px 16px 40px}
+header.top{display:flex;gap:14px;align-items:center;padding:8px 0 4px}
+header.top img{width:76px;height:auto;flex:none}
+h1{margin:0;font-size:1.65rem;line-height:1.3}
+.sub{margin:2px 0 0;color:var(--muted);font-size:.95rem}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.btn{min-height:46px;padding:0 16px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);font-weight:700;font-size:.92rem}
+.btn.main{background:var(--blue);border-color:var(--blue);color:#fff}
+.notice{display:flex;gap:12px;align-items:flex-start;margin:6px 0 16px;padding:14px 16px;border-radius:16px;background:var(--amber-bg);border:1.5px solid var(--amber-line)}
+.notice img{width:58px;flex:none}
+.notice p{margin:0}
+.notice b{color:var(--amber)}
+.center{margin:0 0 16px;padding:14px 16px;border-radius:16px;background:var(--mint-bg);border:1.5px solid var(--mint-line)}
+.center h2{margin:0 0 6px;font-size:1.05rem}
+.center dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 12px}
+.center dt{color:var(--muted);font-size:.9rem}
+.center dd{margin:0;font-weight:700}
+.center .empty{margin:0;color:var(--muted);font-size:.92rem}
+.center .blank{display:none;grid-template-columns:auto 1fr;gap:10px 12px;margin-top:6px}
+.center .blank span{border-bottom:1px solid #666;min-height:1.4em}
+.jump{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 18px}
+.jump a{display:flex;gap:10px;align-items:center;padding:14px;border-radius:16px;border:1.5px solid var(--line);background:var(--surface);color:inherit;text-decoration:none;font-weight:700;line-height:1.35}
+.jump a span{font-size:1.6rem}
+.jump a small{display:block;font-weight:400;color:var(--muted);font-size:.82rem}
+@media (min-width:720px){.jump{grid-template-columns:repeat(4,minmax(0,1fr))}.jump a{flex-direction:column;text-align:center}}
+section.part{margin:26px 0 0}
+section.part>h2{display:flex;gap:10px;align-items:center;margin:0 0 6px;font-size:1.35rem}
+section.part>h2 span{font-size:1.5rem}
+section.part>p.lead{margin:0 0 12px;color:var(--muted)}
+details.q{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;margin:0 0 10px}
+details.q[open]{border-color:var(--blue)}
+details.q>summary{list-style:none;cursor:pointer;display:flex;gap:10px;align-items:center;justify-content:space-between;padding:14px 16px;font-weight:700;font-size:1.02rem}
+details.q>summary::-webkit-details-marker{display:none}
+details.q>summary::after{content:"＋";flex:none;color:var(--blue);font-size:1.2rem}
+details.q[open]>summary::after{content:"－"}
+.ans{padding:0 16px 14px}
+.ans p{margin:0 0 8px}
+.ans ul{margin:0 0 8px;padding-left:1.2rem}
+.ans li{margin:2px 0}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;padding:1px 8px;border-radius:999px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-line);white-space:nowrap;margin-left:6px;vertical-align:2px}
+.ask{margin:8px 0 0;padding:8px 12px;border-radius:10px;background:var(--soft);font-size:.9rem;color:var(--muted)}
+.ask::before{content:"👉 "}
+.word{font-weight:800;color:var(--navy)}
+.staff{margin:30px 0 0;padding:16px;border-radius:16px;border:1.5px dashed var(--line);background:var(--surface)}
+.staff summary{cursor:pointer;font-weight:800}
+.staff h3{margin:14px 0 6px;font-size:1rem}
+.staff p,.staff li{font-size:.92rem}
+.form{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:8px 0}
+.form label{display:grid;gap:4px;font-size:.85rem;color:var(--muted)}
+.form input{min-height:44px;padding:6px 10px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);font-size:.95rem}
+.qrbox{display:none;margin:10px 0;text-align:center}
+.qrbox.on{display:block}
+.qrbox img{width:200px;height:200px;background:#fff;padding:8px;border-radius:12px}
+footer{margin:28px 0 0;padding-top:12px;border-top:1.5px solid var(--line);color:var(--muted);font-size:.82rem}
+footer p{margin:2px 0}
+@media print{
+  @page{size:A4;margin:14mm 12mm}
+  html,html.big{font-size:11.5pt}
+  body{background:#fff;color:#000}
+  .tools,.jump,.staff,.qrbox:not(.on){display:none!important}
+  details.q{break-inside:avoid;border-color:#999}
+  details.q>summary::after,details.q[open]>summary::after{content:""}
+  .center .empty{display:none}
+  .center .blank{display:grid}
+  .ans{display:block!important}
+  .notice,.center{border-color:#999}
+  section.part{break-before:auto}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <img src="img/hello.png" alt="굿균" width="76">
+    <div>
+      <h1>자활 참여자 길잡이</h1>
+      <p class="sub">자활에서 일하시는 분을 위한 쉬운 안내</p>
+    </div>
+  </header>
+
+  <div class="tools">
+    <button class="btn" id="btnBig" type="button">가 글자 크게</button>
+    <button class="btn" id="btnOpen" type="button">모두 펼치기</button>
+    <button class="btn" id="btnPrint" type="button">인쇄하기</button>
+  </div>
+
+  <div class="notice">
+    <img src="img/point.png" alt="" width="58">
+    <p><b>먼저 읽어 주세요.</b> 이 안내는 낱말 뜻과 큰 틀만 알려 드려요. 사업단·센터마다 정한 것이 다르고, 사람마다 사정도 달라요. <b>내 경우가 어떤지, 우리 센터 기준이 무엇인지는 꼭 담당 선생님께 물어보세요.</b></p>
+  </div>
+
+  <div class="center" id="centerBox"></div>
+
+  <nav class="jump" aria-label="바로 가기">
+    <a href="#pay"><span>💰</span><div>급여명세서 낱말<small>이 말이 무슨 뜻일까</small></div></a>
+    <a href="#work"><span>⏰</span><div>일할 때 지킬 것<small>시간·연락·기록</small></div></a>
+    <a href="#worry"><span>🤔</span><div>일하면 손해일까?<small>자주 하는 걱정</small></div></a>
+    <a href="#safe"><span>⛑️</span><div>안전·건강<small>다치거나 아플 때</small></div></a>
+  </nav>
+
+  <!-- ① 급여명세서 -->
+  <section class="part" id="pay">
+    <h2><span>💰</span>급여명세서에 나오는 말</h2>
+    <p class="lead">급여명세서(월급 내역)에 나오는 말을 쉽게 풀었어요. 칸 이름은 센터마다 조금씩 달라요.</p>
+
+    <details class="q"><summary>자활급여가 뭐예요?</summary><div class="ans">
+      <p><span class="word">자활급여</span>는 자활근로로 <b>일한 대가로 받는 돈</b>이에요. 일한 날과 시간만큼 계산해요.</p>
+      <p>하루에 받는 돈은 일하는 사업단 종류(시장진입형·사회서비스형·근로유지형·시간제 등)에 따라 달라요. 금액은 해마다 나라에서 정해요.</p>
+      <p>자격증이 필요한 일을 하는 분은 조금 더 받기도 해요.</p>
+      <p class="ask">내 사업단 하루 금액은 담당 선생님께 물어보세요.</p>
+    </div></details>
+
+    <details class="q"><summary>실비가 뭐예요?</summary><div class="ans">
+      <p><span class="word">실비</span>는 일하러 나온 날마다 붙는 <b>교통비·식비 같은 돈</b>이에요.</p>
+      <ul><li>실제로 나와서 일한 날에만 붙어요.</li><li>수급비(생계급여)를 계산할 때 소득으로 치지 않아요.</li></ul>
+    </div></details>
+
+    <details class="q"><summary>주차(주차수당)가 뭐예요?</summary><div class="ans">
+      <p><span class="word">주차</span>는 한 주 동안 <b>정해진 날을 빠짐없이 나오면 하루치를 더 받는 것</b>이에요.</p>
+      <ul><li>한 주에 지각·조퇴가 많이 쌓이면 그 주에는 생기지 않을 수 있어요.</li><li>공휴일처럼 내 탓이 아닌 날은 빠진 날로 보지 않아요.</li></ul>
+      <p class="ask">우리 사업단은 한 주에 며칠 일하는지, 내 주차가 어떻게 됐는지는 담당 선생님께 물어보세요.</p>
+    </div></details>
+
+    <details class="q"><summary>월차가 뭐예요?</summary><div class="ans">
+      <p><span class="word">월차</span>는 한 달을 <b>빠짐없이 나오면 다음 달에 하루 쉬어도 그날 급여가 나오는 날</b>이에요.</p>
+      <ul><li>지각·조퇴가 한 달에 많이 쌓이면 생기지 않을 수 있어요.</li><li>쓰지 않은 월차는 연말에 돈으로 받을 수 있는데, 받을 수 있는 날 수에 한도가 있어요. 그래서 남은 월차는 쓰는 것이 좋아요.</li></ul>
+      <p class="ask">내 월차가 몇 개 남았는지는 센터에서 알려 드려요. 궁금하면 담당 선생님께 물어보세요.</p>
+    </div></details>
+
+    <details class="q"><summary>유급휴일·유급휴가가 뭐예요?</summary><div class="ans">
+      <p><span class="word">유급</span>은 "돈을 받는다"는 뜻이에요. <b>쉬어도 그날 급여가 나오는 날</b>이에요.</p>
+      <ul><li>공휴일, 근로자의 날, 쓴 월차 같은 날이에요.</li><li>집안 경조사(결혼·장례 등), 건강검진 같은 날도 미리 말씀드리고 서류를 내면 유급으로 쉴 수 있는 경우가 있어요.</li></ul>
+      <p class="ask">어떤 날이 되는지, 무슨 서류가 필요한지는 미리 담당 선생님께 물어보세요.</p>
+    </div></details>
+
+    <details class="q"><summary>반장수당·초과근무수당은요? <span class="tag">센터마다 달라요</span></summary><div class="ans">
+      <p><span class="word">반장수당</span>은 반장 일을 맡은 분께 더 드리는 돈이에요.</p>
+      <p><span class="word">초과근무수당</span>은 정해진 시간보다 더 일했을 때 받는 돈이에요. 사업단이 번 돈(매출)이 있을 때만 줄 수 있어서, 사업단마다 달라요.</p>
+    </div></details>
+
+    <details class="q"><summary>자립성과금이 뭐예요? <span class="tag">센터마다 달라요</span></summary><div class="ans">
+      <p><span class="word">자립성과금</span>은 사업단이 물건이나 서비스를 팔아 번 돈(매출)에서 <b>일부를 일한 분들께 나눠 드리는 돈</b>이에요.</p>
+      <ul><li>사업단이 번 돈과 센터가 정한 나누는 방법에 따라 달라서, 달마다 다르거나 없는 달도 있어요.</li><li>수급비를 계산할 때 소득으로 치지 않아요(한도가 있어요).</li></ul>
+      <p class="ask">우리 사업단은 어떻게 나누는지 담당 선생님께 물어보세요.</p>
+    </div></details>
+
+    <details class="q"><summary>공제·4대보험은 왜 빼요?</summary><div class="ans">
+      <p><span class="word">공제</span>는 급여에서 <b>미리 빼는 돈</b>이에요.</p>
+      <p><span class="word">4대보험</span>(국민연금·건강보험·고용보험·산재보험)은 아프거나 다치거나 나이 들었을 때를 위한 보험이에요. 보험료의 일부는 센터가 내고, 내 몫만 급여에서 빼요.</p>
+      <p class="ask">얼마가 빠졌는지 궁금하면 명세서를 들고 담당 선생님께 물어보세요.</p>
+    </div></details>
+
+    <details class="q"><summary>실수령액(실지급액)이 뭐예요?</summary><div class="ans">
+      <p>받을 돈에서 공제할 돈을 빼고 <b>실제로 내 통장에 들어오는 돈</b>이에요.</p>
+      <p>급여는 한 달에 한 번, 정해진 날에 통장으로 들어와요.</p>
+    </div></details>
+  </section>
+
+  <!-- ② 일할 때 지킬 것 -->
+  <section class="part" id="work">
+    <h2><span>⏰</span>일할 때 지킬 것</h2>
+    <p class="lead">급여와 수급에 바로 이어지는 것들이에요. 근무 시간과 쉬는 날은 사업단마다 달라요.</p>
+
+    <details class="q"><summary>시간을 꼭 지켜야 하나요?</summary><div class="ans">
+      <p>네. 급여는 <b>실제로 일한 시간만큼</b> 계산해요.</p>
+      <ul><li>늦게 오거나 일찍 가면 그만큼 급여가 줄어요.</li><li>지각·조퇴가 쌓이면 주차와 월차가 생기지 않을 수 있어요.</li></ul>
+    </div></details>
+
+    <details class="q"><summary>출퇴근 기록(지문 등)은 왜 찍어요?</summary><div class="ans">
+      <p>출퇴근 기록이 <b>내가 일한 것을 보여 주는 증거</b>이고, 급여를 계산하는 바탕이 돼요.</p>
+      <p>깜빡하고 못 찍었으면 그날 바로 담당 선생님께 말씀하세요.</p>
+    </div></details>
+
+    <details class="q"><summary>아프거나 못 나오게 되면요?</summary><div class="ans">
+      <ul><li><b>출근 전에, 미리</b> 담당 선생님께 연락하세요.</li><li>진단서 같은 서류가 필요할 수 있어요. 병원에 가면 서류를 받아 두세요.</li><li>연락 없이 빠지면 결근이 되고, 급여와 수급에 좋지 않을 수 있어요.</li></ul>
+      <p class="ask">어떤 서류가 필요한지는 담당 선생님께 물어보세요.</p>
+    </div></details>
+
+    <details class="q"><summary>자활에 나오는 것이 수급과 관계가 있나요?</summary><div class="ans">
+      <p>일할 수 있는 분이 수급비를 받으려면 <b>자활에 참여하는 것이 조건</b>인 경우가 많아요(조건부 수급).</p>
+      <p>그래서 정해진 시간 이상 꾸준히 나오는 것이 중요해요. 오래 빠지면 수급에도 영향이 있을 수 있어요.</p>
+      <p class="ask">내가 조건부 수급인지, 얼마나 나와야 하는지는 담당 선생님께 물어보세요.</p>
+    </div></details>
+
+    <details class="q"><summary>자활은 계속할 수 있나요? <span class="tag">사람마다 달라요</span></summary><div class="ans">
+      <p>자활에는 참여할 수 있는 기간에 한도가 있어요. 사업 종류와 사람에 따라 달라요.</p>
+      <p>자활은 결국 <b>스스로 일하고 자립하도록 돕는 곳</b>이에요. 센터에서 취업·창업, 자격증 공부도 도와드려요.</p>
+      <p class="ask">내 참여 기간과 앞으로의 계획은 담당 선생님과 함께 이야기해 보세요.</p>
+    </div></details>
+  </section>
+
+  <!-- ③ 걱정 -->
+  <section class="part" id="worry">
+    <h2><span>🤔</span>일하면 손해일까요?</h2>
+    <p class="lead">많은 분이 하시는 걱정이에요. 큰 틀만 알려 드려요. 정확한 금액은 사람마다 달라요.</p>
+
+    <details class="q"><summary>일해서 돈을 벌면 수급비가 줄어서 손해 아닌가요?</summary><div class="ans">
+      <p>번 돈이 늘면 생계급여는 줄 수 있어요. 하지만 <b>대부분 일하는 쪽이 더 나아요.</b></p>
+      <ul><li>자활근로로 번 돈은 <b>그대로 다 소득으로 치지 않고, 일부(30%)를 빼고</b> 계산해요.</li><li>실비와 자립성과금은 소득으로 치지 않아요(자립성과금은 한도가 있어요).</li><li>그래서 일한 돈과 수급비를 합하면, 보통 일하지 않을 때보다 많아요.</li></ul>
+      <p class="ask">우리 집은 어떻게 되는지, 정확한 금액은 주민센터나 담당 선생님께 물어보세요.</p>
+    </div></details>
+
+    <details class="q"><summary>돈을 모을 수 있는 방법이 있나요?</summary><div class="ans">
+      <p><span class="word">자산형성 통장</span>이 있어요. 내가 매달 돈을 모으면 <b>나라가 돈을 더 얹어 줘요.</b></p>
+      <ul><li>자활에서 일하면 더 붙는 돈(장려금)도 있어요.</li><li>정해진 기간 동안 잘 모으고 조건을 지키면, 모은 돈보다 훨씬 많이 받을 수 있어요.</li><li>중간에 그만두면 나라가 얹어 준 돈은 못 받을 수 있어요.</li></ul>
+      <p class="ask">들 수 있는지, 어떤 통장이 맞는지는 담당 선생님께 상담받으세요.</p>
+    </div></details>
+
+    <details class="q"><summary>수급에서 벗어나면 지원이 한꺼번에 다 끊기나요?</summary><div class="ans">
+      <p>꼭 그렇지는 않아요. 수급에는 생계·의료·주거·교육처럼 <b>여러 가지가 있고, 기준이 서로 달라요.</b></p>
+      <p>생계급여가 끊겨도 다른 지원은 이어지는 경우가 있어요. 또 자산형성 통장은 수급에서 벗어나면 오히려 받을 수 있는 돈이 생기기도 해요.</p>
+      <p class="ask">내 경우는 주민센터와 담당 선생님께 꼭 확인하세요.</p>
+    </div></details>
+
+    <details class="q"><summary>취업하면 센터와는 끝인가요?</summary><div class="ans">
+      <p>아니에요. 취업한 뒤에도 잘 다니고 있는지 센터에서 연락드리고 도와드려요.</p>
+      <p>취업하면 센터에도 꼭 알려 주세요. 센터가 도와드릴 수 있는 일이 있어요.</p>
+    </div></details>
+  </section>
+
+  <!-- ④ 안전·건강 -->
+  <section class="part" id="safe">
+    <h2><span>⛑️</span>안전·건강</h2>
+    <p class="lead">나를 지키는 것이 가장 중요해요.</p>
+
+    <details class="q"><summary>일하기 전에 꼭 할 것은요?</summary><div class="ans">
+      <ul><li>안전교육을 꼭 받으세요.</li><li>장갑·마스크·안전화 같은 <b>보호구를 꼭 쓰세요.</b></li><li>처음 쓰는 기계나 약품은 사용법을 먼저 물어보세요.</li></ul>
+    </div></details>
+
+    <details class="q"><summary>일하다 다쳤어요.</summary><div class="ans">
+      <ul><li><b>작은 상처라도 바로</b> 반장님이나 담당 선생님께 알리세요.</li><li>필요하면 바로 병원에 가세요. 급하면 119.</li><li>일하다 다친 것은 산재보험으로 치료받을 수 있는 경우가 있어요. <b>늦게 알리면 처리가 어려워질 수 있어요.</b></li></ul>
+    </div></details>
+
+    <details class="q"><summary>위험하다고 느껴지면요?</summary><div class="ans">
+      <p>위험하다고 느끼면 <b>일을 멈추고 바로 알리세요.</b> 참지 않아도 괜찮아요.</p>
+    </div></details>
+
+    <details class="q"><summary>더울 때·추울 때는요?</summary><div class="ans">
+      <ul><li>더울 때: 물을 자주 마시고, 그늘에서 쉬어요. 어지러우면 바로 말하세요.</li><li>추울 때: 따뜻하게 입고, 미끄러운 곳을 조심해요.</li><li>여름·겨울에는 일하는 시간을 줄이는 사업단도 있어요.</li></ul>
+    </div></details>
+
+    <details class="q"><summary>몸이나 마음이 힘들 때는요?</summary><div class="ans">
+      <p>무리하지 말고 담당 선생님께 이야기하세요. 쉬는 방법, 병원·상담 연결을 함께 찾아볼 수 있어요.</p>
+      <p>건강검진은 꼭 받으세요. 미리 말씀드리면 쉬면서 받을 수 있는 경우가 있어요.</p>
+    </div></details>
+  </section>
+
+  <div class="qrbox" id="qrBox"><img id="qrImg" alt="이 안내 화면 QR"><p class="sub">휴대폰 카메라로 찍으면 이 안내가 열려요</p></div>
+
+  <details class="staff" id="staff">
+    <summary>종사자 선생님께 — 이렇게 써 주세요</summary>
+    <h3>1. 센터 정보 넣기</h3>
+    <p>아래 칸에 적으면 화면 위 초록 상자와 인쇄본에 나와요. 적은 내용은 <b>이 브라우저에만</b> 남고 어디에도 보내지 않아요.</p>
+    <div class="form">
+      <label>센터 이름<input id="fCenter" placeholder="○○지역자활센터"></label>
+      <label>담당 선생님<input id="fStaff" placeholder="예: 사업단 담당 선생님"></label>
+      <label>연락처<input id="fTel" placeholder="02-000-0000"></label>
+      <label>연락 가능한 시간·메모<input id="fMemo" placeholder="평일 9시~18시, 못 나올 땐 출근 전에"></label>
+    </div>
+    <h3>2. 나눠 주기</h3>
+    <ul>
+      <li>상담할 때 「글자 크게」를 누르고 화면을 함께 보며 설명하세요.</li>
+      <li>「인쇄하기」를 누르면 모든 답이 펼쳐진 A4 안내문이 나와요.</li>
+      <li><button class="btn" id="btnQr" type="button">이 화면 QR 보기</button> 휴대폰으로 찍어 가게 할 수 있어요.</li>
+    </ul>
+    <h3>3. 이 안내가 하지 않는 것</h3>
+    <ul>
+      <li>개인 급여 계산, 주차·월차 발생 여부, 수급 자격 같은 <b>판정은 하지 않아요.</b> 모든 답이 「담당 선생님께 확인」으로 끝나도록 썼어요.</li>
+      <li>숫자(금액·시간)는 일부러 거의 넣지 않았어요. 해마다 바뀌고 사업단·센터마다 달라 오해가 생기기 쉬워서예요.</li>
+      <li>근거: 『2026년 자활사업 안내』(보건복지부)의 자활급여·근무·소득 관련 내용을 쉬운 말로 옮겼어요. 센터 규칙과 다른 곳이 있으면 센터 규칙이 우선이에요.</li>
+    </ul>
+  </details>
+
+  <footer>
+    <p>자활 참여자 길잡이 · 큰 틀만 알려 드리는 참고 안내예요. 내 경우와 우리 센터 기준은 담당 선생님께 확인하세요.</p>
+    <p>만든 사람: 자활전문강사 김태균 (종사자 문의 jahwalktg@gmail.com)</p>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $=function(id){return document.getElementById(id);};
+  var KEY='jahwal-participant.center.v1';
+  var C={};try{C=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function renderCenter(){
+    var box=$('centerBox'),rows=[['센터',C.center],['담당',C.staff],['연락처',C.tel],['메모',C.memo]].filter(function(r){return r[1];});
+    if(!rows.length){box.innerHTML='<h2>📞 궁금하면 여기로</h2><p class="empty">담당 선생님 연락처를 받아 두세요. (종사자 선생님은 맨 아래 「이렇게 써 주세요」에서 센터 정보를 넣을 수 있어요.)</p><div class="blank"><b>센터</b><span></span><b>담당</b><span></span><b>연락처</b><span></span></div>';return;}
+    box.innerHTML='<h2>📞 궁금하면 여기로</h2><dl>'+rows.map(function(r){return '<dt>'+r[0]+'</dt><dd>'+esc(r[1])+'</dd>';}).join('')+'</dl>';
+  }
+  [['fCenter','center'],['fStaff','staff'],['fTel','tel'],['fMemo','memo']].forEach(function(f){
+    var i=$(f[0]);i.value=C[f[1]]||'';
+    i.addEventListener('input',function(){C[f[1]]=i.value.trim();try{localStorage.setItem(KEY,JSON.stringify(C));}catch(e){}renderCenter();});
+  });
+  renderCenter();
+  var big=false;
+  $('btnBig').onclick=function(){big=!big;document.documentElement.classList.toggle('big',big);this.textContent=big?'가 글자 보통':'가 글자 크게';};
+  var allOpen=false;
+  $('btnOpen').onclick=function(){allOpen=!allOpen;document.querySelectorAll('details.q').forEach(function(d){d.open=allOpen;});this.textContent=allOpen?'모두 접기':'모두 펼치기';};
+  var opened=[];
+  window.addEventListener('beforeprint',function(){opened=[];document.querySelectorAll('details.q').forEach(function(d){opened.push(d.open);d.open=true;});});
+  window.addEventListener('afterprint',function(){document.querySelectorAll('details.q').forEach(function(d,i){d.open=opened[i];});});
+  $('btnPrint').onclick=function(){window.print();};
+  $('btnQr').onclick=function(){
+    var box=$('qrBox');
+    if(box.classList.contains('on')){box.classList.remove('on');return;}
+    try{var q=qrcode(0,'M');q.addData(location.href.split('#')[0]);q.make();$('qrImg').src=q.createDataURL(8,2);box.classList.add('on');box.scrollIntoView({block:'center'});}
+    catch(e){alert('QR을 만들지 못했어요. 인터넷 연결을 확인해 주세요.');}
+  };
+})();
+</script>
+</body>
+</html>
