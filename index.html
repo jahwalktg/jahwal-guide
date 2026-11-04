@@ -120,6 +120,24 @@ footer p{margin:2px 0}
   .notice,.center{border-color:#999}
   section.part{break-before:auto}
 }
+
+/* 첫 접속 필수 안내 */
+.gt-back{position:fixed;inset:0;z-index:100;background:rgba(10,20,45,.72);display:flex;align-items:center;justify-content:center;padding:14px}
+.gt-back[hidden]{display:none}
+.gt-box{width:min(560px,100%);max-height:100%;overflow:auto;background:var(--surface);color:var(--text);border:3px solid var(--amber-line);border-radius:18px;padding:20px 20px 18px;box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.gt-box h2{margin:0 0 4px;font-size:1.35rem;line-height:1.35;color:var(--amber)}
+.gt-box .gt-sub{margin:0 0 12px;font-weight:700}
+.gt-box ul{margin:0 0 12px;padding:0;list-style:none;display:grid;gap:8px}
+.gt-box li{padding:9px 12px;border-radius:10px;background:var(--bg);line-height:1.6;font-size:.95rem}
+.gt-box li.key{background:var(--amber-bg);border:1.5px solid var(--amber-line)}
+.gt-tag{display:inline-block;font-size:.8rem;font-weight:800;padding:1px 9px;border-radius:999px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-line);white-space:nowrap}
+.gt-check{display:flex;gap:10px;align-items:center;padding:10px 12px;margin:0 0 10px;border:1.5px solid var(--line);border-radius:10px;font-weight:700;cursor:pointer;line-height:1.45}
+.gt-check input{flex:none;width:22px;height:22px;margin:0}
+.gt-ok{width:100%;min-height:54px;border:0;border-radius:12px;background:var(--blue);color:#fff;font-size:1.05rem;font-weight:800;cursor:pointer}
+.gt-ok:disabled{opacity:.4;cursor:not-allowed}
+.gt-again{background:none;border:0;padding:0;color:inherit;text-decoration:underline;font:inherit;cursor:pointer}
+.vnote{margin:10px 0 0;padding:8px 12px;border-radius:10px;background:var(--amber-bg);border:1.5px solid var(--amber-line);font-size:.9rem;line-height:1.55;font-weight:600}
+@media print{.gt-back,.gt-again{display:none!important}}
 </style>
 </head>
 <body>
@@ -140,7 +158,7 @@ footer p{margin:2px 0}
 
   <div class="notice">
     <img src="img/point.png" alt="" width="58">
-    <p><b>먼저 읽어 주세요.</b> 이 안내는 낱말 뜻과 큰 틀만 알려 드려요. 사업단·센터마다 정한 것이 다르고, 사람마다 사정도 달라요. <b>내 경우가 어떤지, 우리 센터 기준이 무엇인지는 꼭 담당 선생님께 물어보세요.</b></p>
+    <p><b>정답이 아니라 참고 안내예요.</b> 이 안내는 낱말 뜻과 큰 틀만 알려 드려요. 사업단·센터마다 정한 것이 다르고, 사람마다 사정도 달라요. <b>내 경우가 어떤지, 우리 센터 기준이 무엇인지는 꼭 담당 선생님께 물어보세요.</b></p>
   </div>
 
   <div class="center" id="centerBox"></div>
@@ -355,7 +373,7 @@ footer p{margin:2px 0}
   </details>
 
   <footer>
-    <p>자활 참여자 길잡이 · 큰 틀만 알려 드리는 참고 안내예요. 내 경우와 우리 센터 기준은 담당 선생님께 확인하세요.</p>
+    <p>자활 참여자 길잡이 · 큰 틀만 알려 드리는 참고 안내예요. 내 경우와 우리 센터 기준은 담당 선생님께 확인하세요. <button class="gt-again" id="gtAgain" type="button">첫 안내 다시 보기</button></p>
     <p id="makerLine">만든 사람: 자활전문강사 김태균 (종사자 문의 jahwalktg@gmail.com)</p>
   </footer>
 </div>
@@ -370,6 +388,7 @@ footer p{margin:2px 0}
   window.addEventListener('hashchange',function(){if(STAFF!==/^#staff$/i.test(location.hash))location.reload();});
   if(!STAFF){['staff','makerLine'].forEach(function(id){var e=$(id);if(e)e.remove();});}
   var on=function(id,fn){var e=$(id);if(e)e.onclick=fn;};
+  document.querySelectorAll('details.q').forEach(function(d){var g=d.querySelector('summary .tag');if(!g||g.textContent.indexOf('센터')<0)return;var p=document.createElement('p');p.className='vnote';p.textContent='⚠ 센터마다 달라요: 이 안내보다 우리 센터가 정한 내용이 먼저예요. 꼭 담당 선생님께 확인하세요.';d.querySelector('.ans').appendChild(p);});
   var KEY='jahwal-participant.center.v1';
   var C={};try{C=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
   /* QR·링크로 들어온 경우: 주소 # 뒤의 센터 정보(c 센터, s 담당, t 연락처, m 메모)를 보여 줌. # 뒤는 서버로 가지 않음. 이 기기에는 저장하지 않음 */
@@ -420,6 +439,32 @@ footer p{margin:2px 0}
   });
   on('btnQrPrint',function(){$('staff').open=true;document.body.classList.add('print-qr');window.print();setTimeout(function(){document.body.classList.remove('print-qr');},500);});
   on('btnQrSave',function(){var a=document.createElement('a');a.href=$('qrImg').src;a.download='참여자길잡이_QR'+(C.center?'_'+C.center:'')+'.gif';document.body.appendChild(a);a.click();a.remove();});
+})();
+</script>
+<div class="gt-back" id="gtBack" hidden role="dialog" aria-modal="true" aria-labelledby="gtT">
+  <div class="gt-box">
+    <h2 id="gtT">⚠ 먼저 꼭 읽어 주세요</h2>
+    <p class="gt-sub">이 안내는 정답이 아니에요. 큰 틀만 알려 드리는 참고 안내예요.</p>
+    <ul>
+      <li>급여, 수급, 보험은 <b>사람마다 달라요.</b> 이 안내만 보고 "내 경우도 이렇다"고 생각하지 마세요.</li>
+      <li class="key"><span class="gt-tag">센터마다 달라요</span> 표시는 <b>센터가 정한 내용이 따로 있어요.</b> 꼭 담당 선생님께 먼저 확인하세요.</li>
+      <li>정확한 내용은 담당 선생님, 주민센터, 관계기관에 물어보세요. 담당 선생님 말씀이 이 안내보다 먼저예요.</li>
+    </ul>
+    <label class="gt-check"><input type="checkbox" id="gtChk"> 읽었어요. 꼭 확인할게요.</label>
+    <button class="gt-ok" id="gtOk" type="button" disabled>안내 보기</button>
+  </div>
+</div>
+<script>
+/* 첫 접속 필수 안내: 체크하고 눌러야 쓸 수 있음. 이 브라우저에 확인 표시만 저장. 주소에 ?gate 를 붙이거나 맨 아래 단추로 다시 볼 수 있음 */
+(function(){
+  var KEY='jahwal-guide.gate.v1',back=document.getElementById('gtBack'),ok=document.getElementById('gtOk'),chk=document.getElementById('gtChk');
+  var seen=false;try{seen=!!localStorage.getItem(KEY);}catch(e){}
+  function show(){back.hidden=false;document.documentElement.style.overflow='hidden';chk.checked=false;ok.disabled=true;chk.focus();}
+  function hide(){back.hidden=true;document.documentElement.style.overflow='';}
+  chk.addEventListener('change',function(){ok.disabled=!chk.checked;});
+  ok.addEventListener('click',function(){try{localStorage.setItem(KEY,new Date().toISOString().slice(0,10));}catch(e){}hide();});
+  var again=document.getElementById('gtAgain');if(again)again.addEventListener('click',show);
+  if(!seen||/[?&]gate\b/.test(location.search))show();
 })();
 </script>
 </body>
