@@ -299,8 +299,9 @@ footer p{margin:2px 0}
     </div></details>
   </section>
 
-  <details class="staff" id="staff">
+  <details class="staff" id="staff" open>
     <summary>종사자 선생님께 — 이렇게 써 주세요</summary>
+    <p class="warnline">이 칸은 <b>종사자용 주소</b>(주소 끝 <b>#staff</b>)에서만 보여요. 참여자에게 주는 QR·링크로 열면 이 칸은 나오지 않아요. 종사자용 주소는 종사자끼리만 나눠 주세요.</p>
     <h3>1. 센터 정보 넣기</h3>
     <p>아래 칸에 적으면 화면 위 초록 상자, 인쇄본, <b>참여자에게 줄 QR</b>에 함께 들어가요. 사이트 서버에는 보내지 않고, 이 브라우저와 QR 안에만 담겨요.</p>
     <p class="warnline">⚠ QR을 받은 사람은 누구나 이 내용을 볼 수 있어요. 개인 휴대폰 번호 말고 <b>센터 대표번호</b>를 적어 주세요.</p>
@@ -337,7 +338,7 @@ footer p{margin:2px 0}
 
   <footer>
     <p>자활 참여자 길잡이 · 큰 틀만 알려 드리는 참고 안내예요. 내 경우와 우리 센터 기준은 담당 선생님께 확인하세요.</p>
-    <p>만든 사람: 자활전문강사 김태균 (종사자 문의 jahwalktg@gmail.com)</p>
+    <p id="makerLine">만든 사람: 자활전문강사 김태균 (종사자 문의 jahwalktg@gmail.com)</p>
   </footer>
 </div>
 
@@ -346,23 +347,28 @@ footer p{margin:2px 0}
 (function(){
   'use strict';
   var $=function(id){return document.getElementById(id);};
+  /* 기본은 참여자 화면. 주소 끝이 #staff 일 때만 종사자 칸을 보여 줌 (QR·링크에는 #staff 가 들어가지 않음) */
+  var STAFF=/^#staff$/i.test(location.hash);
+  window.addEventListener('hashchange',function(){if(STAFF!==/^#staff$/i.test(location.hash))location.reload();});
+  if(!STAFF){['staff','makerLine'].forEach(function(id){var e=$(id);if(e)e.remove();});}
+  var on=function(id,fn){var e=$(id);if(e)e.onclick=fn;};
   var KEY='jahwal-participant.center.v1';
   var C={};try{C=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
   /* QR·링크로 들어온 경우: 주소 # 뒤의 센터 정보(c 센터, s 담당, t 연락처, m 메모)를 보여 줌. # 뒤는 서버로 가지 않음. 이 기기에는 저장하지 않음 */
   var FIELDS=[['c','center'],['s','staff'],['t','tel'],['m','memo']];
   var H=null;
   try{var hp=new URLSearchParams(location.hash.slice(1));FIELDS.forEach(function(f){var v=hp.get(f[0]);if(v){H=H||{};H[f[1]]=v.slice(0,40);}});}catch(e){}
-  function shown(){return H||C;}
+  function shown(){return H||(STAFF?C:{});}
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function renderCenter(){
     var D=shown(),box=$('centerBox'),rows=[['센터',D.center],['담당',D.staff],['연락처',D.tel],['메모',D.memo]].filter(function(r){return r[1];});
-    if(!rows.length){box.innerHTML='<h2>📞 궁금하면 여기로</h2><p class="empty">담당 선생님 연락처를 받아 두세요. (종사자 선생님은 맨 아래 「이렇게 써 주세요」에서 센터 정보를 넣을 수 있어요.)</p><div class="blank"><b>센터</b><span></span><b>담당</b><span></span><b>연락처</b><span></span></div>';return;}
+    if(!rows.length){box.innerHTML='<h2>📞 궁금하면 여기로</h2><p class="empty">담당 선생님 연락처를 받아 두세요.</p><div class="blank"><b>센터</b><span></span><b>담당</b><span></span><b>연락처</b><span></span></div>';return;}
     box.innerHTML='<h2>📞 궁금하면 여기로</h2><dl>'+rows.map(function(r){
       var v=esc(r[1]);
       if(r[0]==='연락처'){var n=r[1].replace(/[^0-9+]/g,'');if(n.length>=7)v='<a class="tel" href="tel:'+n+'">'+v+'</a>';}
       return '<dt>'+r[0]+'</dt><dd>'+v+'</dd>';}).join('')+'</dl>'+(H?'<p class="from">센터에서 보내 준 연락처예요. 누르면 전화가 걸려요.</p>':'');
   }
-  [['fCenter','center'],['fStaff','staff'],['fTel','tel'],['fMemo','memo']].forEach(function(f){
+  if(STAFF)[['fCenter','center'],['fStaff','staff'],['fTel','tel'],['fMemo','memo']].forEach(function(f){
     var i=$(f[0]);i.value=C[f[1]]||'';
     i.addEventListener('input',function(){C[f[1]]=i.value.trim();try{localStorage.setItem(KEY,JSON.stringify(C));}catch(e){}H=null;renderCenter();if($('qrBox').classList.contains('on'))makeQr();});
   });
@@ -388,14 +394,14 @@ footer p{margin:2px 0}
     $('qrBox').classList.add('on');
     $('qrNote').textContent=/^https?:\/\/(localhost|127\.)/.test(url)?'지금은 이 PC 미리보기 주소라 다른 휴대폰에서는 열리지 않아요. 사이트에 올린 뒤 다시 만드세요.':(C.center?'센터 정보가 담긴 QR이에요.':'센터 정보 없이 안내만 담긴 QR이에요.');
   }
-  $('btnQr').onclick=function(){makeQr();$('qrBox').scrollIntoView({block:'center'});};
-  $('btnLink').onclick=function(){
+  on('btnQr',function(){makeQr();$('qrBox').scrollIntoView({block:'center'});});
+  on('btnLink',function(){
     var url=shareUrl(),done=function(){$('qrNote').textContent='링크를 복사했어요. 단체방이나 문자에 붙여 넣으세요.';};
     if(!$('qrBox').classList.contains('on'))makeQr();
     try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(done,function(){prompt('아래 링크를 복사하세요',url);});}else prompt('아래 링크를 복사하세요',url);}catch(e){prompt('아래 링크를 복사하세요',url);}
-  };
-  $('btnQrPrint').onclick=function(){$('staff').open=true;document.body.classList.add('print-qr');window.print();setTimeout(function(){document.body.classList.remove('print-qr');},500);};
-  $('btnQrSave').onclick=function(){var a=document.createElement('a');a.href=$('qrImg').src;a.download='참여자길잡이_QR'+(C.center?'_'+C.center:'')+'.gif';document.body.appendChild(a);a.click();a.remove();};
+  });
+  on('btnQrPrint',function(){$('staff').open=true;document.body.classList.add('print-qr');window.print();setTimeout(function(){document.body.classList.remove('print-qr');},500);});
+  on('btnQrSave',function(){var a=document.createElement('a');a.href=$('qrImg').src;a.download='참여자길잡이_QR'+(C.center?'_'+C.center:'')+'.gif';document.body.appendChild(a);a.click();a.remove();});
 })();
 </script>
 </body>
